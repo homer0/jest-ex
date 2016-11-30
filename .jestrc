@@ -1,0 +1,14 @@
+{
+    "automock": true,
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": ["/node_modules/", "/mocks/"],
+    "testRegex": "\\.test\\.js$",
+    "testPathDirs": ["<rootDir>/tests"],
+    "unmockedModulePathPatterns": [
+        "mocks",
+        "<rootDir>/node_modules/jest-cli",
+        "<rootDir>/node_modules/jasmine-expect"
+    ]
+}
