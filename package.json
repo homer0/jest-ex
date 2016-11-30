@@ -1,6 +1,6 @@
 {
     "name": "jest-ex",
-    "description": "A few extra tools to work with Jest",
+    "description": "A runner and a transformer to simplify (a little bit) your work with Jest.",
     "version": "1.0.0",
     "repository": "homer0/jext-ex",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
