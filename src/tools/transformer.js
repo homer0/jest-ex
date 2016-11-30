@@ -1,7 +1,6 @@
 import path from 'path';
-import * as babel from 'babel-core';
-import jestPreset from 'babel-preset-jest';
 import glob from 'glob';
+import babel, { preset } from '../babel';
 
 class JestExTransformer {
 
@@ -19,7 +18,7 @@ class JestExTransformer {
     }
 
     process(src, filename) {
-        let result = '';
+        let result = src;
         if (filename.match(/\.[js|jsx]+$/)) {
             this.code = src;
             this.filepath = filename;
@@ -30,7 +29,7 @@ class JestExTransformer {
                 this.code = babel.transform(this.code, {
                     auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
                     filename,
-                    presets: [jestPreset],
+                    presets: [preset],
                     retainLines: true,
                     plugins: ['transform-runtime'],
                 }).code;

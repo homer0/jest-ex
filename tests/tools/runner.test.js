@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 jest.mock('yargs', () => ({ argv: {} }));
-jest.mock('../../src/jest.js', () => require('../mock.jest'));
+jest.mock('../../src/jest.js', () => require('../mocks/mock.jest'));
 
 jest.unmock('path');
 jest.unmock('../../src/tools/runner');
@@ -11,7 +11,7 @@ import yargs from 'yargs';
 import jestCLI from '../../src/jest';
 import JestExRunner from '../../src/tools/runner';
 import fileFinder from '../../src/utils/fileFinder';
-import jestConfig from '../mock.config';
+import jestConfig from '../mocks/mock.config';
 import 'jasmine-expect';
 
 describe('JestExRunner', () => {
@@ -35,7 +35,7 @@ describe('JestExRunner', () => {
     });
 
     it('should load the configuration from a file', () => {
-        const runner = new JestExRunner('./tests/mock.config');
+        const runner = new JestExRunner('./tests/mocks/mock.config');
         expect(runner.config).toEqual(jestConfig);
     });
 
@@ -175,11 +175,7 @@ describe('JestExRunner', () => {
         jestCLI.success = false;
         const runner = new JestExRunner(config);
         return runner.run()
-        .then(() => {
-            expect(true).toBeFalse();
-        })
-        .catch(() => {
-            expect(true).toBeTrue();
-        });
+        .then(() => expect(true).toBeFalse())
+        .catch(() => expect(true).toBeTrue());
     });
 });
