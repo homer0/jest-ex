@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import path from 'path';
 import yargs from 'yargs';
-import jest from 'jest-cli';
+import jestCLI from '../jest';
 import utils from '../utils/functions';
 import fileFinder from '../utils/fileFinder';
 
@@ -12,14 +12,15 @@ class JestExRunner {
         cache,
         addTransformer,
         addStubs,
-     }) {
+    } = {}) {
         this.rootPath = path.resolve(process.cwd());
-        let configFile = config;
+        this.config = {};
         if (typeof config === 'string') {
-            configFile = require(path.join(this.rootPath, configFile));
+            this.config = require(path.join(this.rootPath, config));
+        } else {
+            this.config = Object.assign({}, config);
         }
 
-        this.config = configFile;
         this.runInBand = !runInParallel;
         this.cache = !!cache;
         this.stubsRegexs = {
@@ -62,7 +63,7 @@ class JestExRunner {
     run() {
         this.config.rootDir = this.rootPath;
         return new Promise((resolve, reject) => {
-            jest.runCLI({
+            jestCLI.runCLI({
                 config: this.config,
                 runInBand: this.runInBand,
                 cache: this.cache,

@@ -29,7 +29,9 @@
         "eslint-plugin-jsx-a11y": "2.2.2",
         "eslint-plugin-import": "1.16.0",
         "eslint-plugin-react": "6.3.0",
-        "eslint-plugin-import": "1.16.0"
+        "eslint-plugin-import": "1.16.0",
+
+        "jasmine-expect": "3.0.1"
     },
     "engine-strict": true,
     "engines": {

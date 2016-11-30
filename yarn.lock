@@ -1663,6 +1663,16 @@ istanbul@^0.4.5:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
+jasmine-expect@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/jasmine-expect/-/jasmine-expect-3.0.1.tgz#3776c17999ee671b01954df431f7ea8486bf00c8"
+  dependencies:
+    jasmine-matchers-loader "0.1.0"
+
+jasmine-matchers-loader@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/jasmine-matchers-loader/-/jasmine-matchers-loader-0.1.0.tgz#dda23db8a3ff99ec3b635be085d875d52f0f0050"
+
 jest-changed-files@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-17.0.2.tgz#f5657758736996f590a51b87e5c9369d904ba7b7"
