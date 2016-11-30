@@ -6,5 +6,6 @@ import { JestExTransformer } from './index';
  * will point to this file for transforming `js/jsx` files.
  * You can also manually point to this file from your Jest configuration.
  * @type {JestExTransformer}
+ * @ignore
  */
 export const process = new JestExTransformer().process;

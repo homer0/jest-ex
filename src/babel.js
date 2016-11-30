@@ -7,4 +7,9 @@ import jestPreset from 'babel-preset-jest';
  * @ignore
  */
 export default babel;
+/**
+ * Babel preset for all Jest plugins
+ * @type {Object}
+ * @ignore
+ */
 export const preset = jestPreset;

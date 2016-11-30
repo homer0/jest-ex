@@ -31,7 +31,13 @@
         "eslint-plugin-react": "6.3.0",
         "eslint-plugin-import": "1.16.0",
 
-        "jasmine-expect": "3.0.1"
+        "jasmine-expect": "3.0.1",
+
+        "esdoc": "0.4.8",
+        "esdoc-es7-plugin": "0.0.3",
+        "esdoc-uploader": "1.0.1",
+
+        "coveralls": "2.11.14"
     },
     "engine-strict": true,
     "engines": {
