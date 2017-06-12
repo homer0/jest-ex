@@ -154,7 +154,7 @@ describe('JestExRunner', () => {
         expect(runner.config.moduleNameMapper).toEqual({});
     });
 
-    pit('should successfully run the tests', () => {
+    it('should successfully run the tests', () => {
         const runner = new JestExRunner(config);
         return runner.run()
         .then(() => {
@@ -171,7 +171,7 @@ describe('JestExRunner', () => {
         });
     });
 
-    pit('should fail while trying to run the tests', () => {
+    it('should fail while trying to run the tests', () => {
         jestCLI.success = false;
         const runner = new JestExRunner(config);
         return runner.run()

@@ -1,2 +1,4 @@
-#!/bin/bash -e
-jest --config .jestrc
+#!/bin/bash
+NODE_ENV=test jest \
+    --no-cache \
+    --config ./.jestrc.json
