@@ -121,6 +121,7 @@ class JestExTransformer {
      * read it from the file system and then use the Webpack HTML loader to format it as a
      * commonjs module.
      * The changes won't be returned, but made on the current `this.code`.
+     * This was done by @sergiolepore on a shared project and I just copied it here :P.
      */
     _parseHTML() {
         const contents = fs.readFileSync(this.filepath, 'utf-8');
