@@ -6,7 +6,7 @@ A runner and a transformer to simplify (a little bit) your work with Jest.
 
 ## The motivation
 
-First I started with the transformer (the preprocessor at that time) because I was having issues with the code coverage where some _invisible lines_ weren't being tested so my reported showed as _incomplete_. Those lines were _Babel magic_, but Babel/Babel-Jest wasn't adding the Istanbul comment, so I started there, I made a preprocessor that would compile the script with Babel and add the comment for those _invisible lines_.
+First I started with the transformer (the preprocessor at that time) because I was having issues with the code coverage where some _invisible lines_ weren't being tested so my reported showed as _incomplete_. Those lines were _Babel magic_, but Babel wasn't adding the Istanbul comment, so I started there, I made a preprocessor that would compile the script with Babel and add the comment for those _invisible lines_.
 
 After that, and knowing that I had the power to make changes, I started noticing a few things that I didn't like about my tests, like (because I needed to for some cases) having to `jest.unmock` one by one all the files of a directory, when glob patterns are a really common thing on Node apps nowadays; other thing, and this is more Node related than Jest, the fact that because all `require`/`import` has to be relative to the test file, the file header was full of `../../..`. So, I built the ability to use glob patterns on `jest.unmock` and a special format for referencing path relatives to the root of your project.
 
@@ -52,8 +52,8 @@ new JestExRunner('./jest.json', {
 .run()
 ```
 
-- `addTransformer`: If you set it to `true`, it will automatically add the Jest-Ex transformer to your Jest configuration.
-- `addStubs`: It will modify your Jest configuration in order to add stubs for images, stylesheets and HTML files. Really useful for when you work with Webpack and have `require`s for this kind of files.
+- `addTransformer`: If you set it to `true`, it will automatically add the Jest-Ex transformer to your Jest configuration. The Jest-Ex transformer will parse your `.js(x)` files with Babel and your `.html` with the [Webpack HTML loader](https://www.npmjs.com/package/html-loader).
+- `addStubs`: It will modify your Jest configuration in order to add stubs for images and stylesheets. Really useful for when you work with Webpack and have `require`s for this kind of files.
 - `runInParallel`: Whether you want Jest to run the tests one by one or in parallel.
 - `cache`: Whether you want to use the Jest cache or not.
 

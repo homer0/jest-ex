@@ -1,17 +1,26 @@
 /* eslint-disable global-require */
 jest.mock('../../src/babel.js', () => require('../mocks/mock.babel'));
 jest.mock('glob', () => ({ sync: jest.fn() }));
+jest.mock('html-loader', () => jest.fn(code => code));
+jest.mock('fs', () => ({ readFileSync: jest.fn() }));
+
 jest.unmock('path');
 jest.unmock('../../src/tools/transformer');
 jest.unmock('../../src/utils/functions');
 
 import path from 'path';
 import glob from 'glob';
+import fs from 'fs';
+import htmlLoader from 'html-loader';
 import babel from '../mocks/mock.babel';
 import JestExTransformer from '../../src/tools/transformer';
 import 'jasmine-expect';
 
 describe('JestExTransformer', () => {
+    beforeEach(() => {
+        fs.readFileSync.mockReset();
+    });
+
     it('should create a new instance of the transformer and set the default properties', () => {
         const transformer = new JestExTransformer();
         expect(transformer instanceof JestExTransformer).toBeTrue();
@@ -30,6 +39,21 @@ describe('JestExTransformer', () => {
         expect(babel.util.canCompile.mock.calls[0][0]).toEqual(fpath);
         expect(babel.transform.mock.calls.length).toEqual(1);
         expect(babel.transform.mock.calls[0][0]).toEqual(code);
+    });
+
+    it('should process an HTML file', () => {
+        const code = '<strong>some-code</strong>';
+        const fpath = 'some/file.html';
+        const { readFileSync } = fs;
+        readFileSync.mockImplementation(() => code);
+        const transformer = new JestExTransformer();
+        const result = transformer.process(code, fpath);
+
+        expect(result).toBe(code);
+        expect(readFileSync.mock.calls.length).toEqual(1);
+        expect(readFileSync.mock.calls[0][0]).toEqual(fpath);
+        expect(htmlLoader.mock.calls.length).toEqual(1);
+        expect(htmlLoader.mock.calls[0][0]).toEqual(code);
     });
 
     it('should format the special paths Jest-Ex allows', () => {

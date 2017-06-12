@@ -31,7 +31,7 @@ describe('JestExRunner', () => {
         expect(runner.config).toEqual(config);
         expect(runner.runInBand).toBeTrue();
         expect(runner.cache).toBeFalse();
-        expect(Object.keys(runner.stubsRegexs)).toEqual(['images', 'styles', 'html']);
+        expect(Object.keys(runner.stubsRegexs)).toEqual(['images', 'styles']);
     });
 
     it('should load the configuration from a file', () => {
@@ -72,7 +72,6 @@ describe('JestExRunner', () => {
         const expectations = {
             '(jpe?g|png|gif|svg)': path.join(__dirname, '../../src/stubs/images.js'),
             's?css': path.join(__dirname, '../../src/stubs/styles.js'),
-            html: path.join(__dirname, '../../src/stubs/html.js'),
         };
 
         Object.keys(expectations).forEach((exp) => {
@@ -138,7 +137,7 @@ describe('JestExRunner', () => {
         expect(runner.config.moduleNameMapper).toBeUndefined();
 
         let i = 0;
-        ['images', 'styles', 'html'].forEach((stub) => {
+        ['images', 'styles'].forEach((stub) => {
             i += 1;
             runner.addStubs([stub]);
             expect(runner.config.moduleNameMapper).toBeObject();
@@ -167,7 +166,7 @@ describe('JestExRunner', () => {
                 cache: false,
             }));
 
-            expect(jestCLI.runCLI.mock.calls[0][1]).toEqual(runner.rootPath);
+            expect(jestCLI.runCLI.mock.calls[0][1][0]).toEqual(runner.rootPath);
         });
     });
 
