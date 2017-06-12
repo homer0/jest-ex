@@ -40,8 +40,8 @@
     },
     "engine-strict": true,
     "engines": {
-        "node": ">=4.3.0",
-        "npm": ">=2.14.0 <3.0.0"
+        "node": ">=6.10.0",
+        "npm": ">=3.0.0"
     },
     "main": "dist/index.js",
     "scripts": {

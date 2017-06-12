@@ -22,7 +22,7 @@ Finally, with my runner and transformer, I assumed I could connect them (make th
 |--------------|--------------------------------------------------------------------|
 | Package      | jest-ex                                                 |
 | Description  | A runner and a transformer to simplify (a little bit) your work with Jest. |
-| Node Version | >= v4.3.0                                                          |
+| Node Version | >= v6.10.0                                                          |
 
 ## Usage
 
