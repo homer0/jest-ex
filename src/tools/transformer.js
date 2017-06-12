@@ -1,6 +1,8 @@
 import path from 'path';
+import fs from 'fs';
 import glob from 'glob';
-import babel, { preset } from '../babel';
+import htmlLoader from 'html-loader';
+import babel from '../babel';
 import utils from '../utils/functions';
 /**
  * A Jest transfomer that fixes a few issues with Babel and add some 'features' you can use on your
@@ -34,6 +36,16 @@ class JestExTransformer {
          */
         this.ignoreLineComment = 'istanbul ignore next';
         /**
+         * A flag to indicate that `.js(x)` files will be parsed.
+         * @type {Boolean}
+         */
+        this.processJS = true;
+        /**
+         * A flag to indicate that `.html` files will be parsed.
+         * @type {Boolean}
+         */
+        this.processHTML = true;
+        /**
          * Every time a file is transfomed, this will be its absolute path.
          * @type {String}
          */
@@ -58,29 +70,62 @@ class JestExTransformer {
      */
     process(src, filename) {
         let result = src;
-        if (filename.match(/\.[js|jsx]+$/)) {
+        // Check which kind of file is
+        const isJS = filename.match(/\.jsx?$/i);
+        const isHTML = filename.match(/\.html$/i);
+
+        // Check if the parser is enabled for the known file types
+        const parseJS = this.processJS && isJS;
+        const parseHTML = this.processHTML && isHTML;
+
+        // If the file should be parsed...
+        if (parseJS || parseHTML) {
             this.code = src;
             this.filepath = filename;
-            if (babel.util.canCompile(filename)) {
-                this._formatSpecialPaths(filename);
-                this._expandUnmockPaths(filename);
 
-                this.code = babel.transform(this.code, {
-                    auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
-                    filename,
-                    presets: [preset],
-                    retainLines: true,
-                    plugins: ['transform-runtime'],
-                }).code;
-
-                this.invisibleLines.forEach(line => this._ignoreLine(line));
-                result = this.code;
+            if (parseJS) {
+                this._parseJS();
             } else {
-                result = src;
+                this._parseHTML();
             }
+
+            result = this.code;
         }
 
         return result;
+    }
+    /**
+     * Parse the file that it's currently being processed as a JS file. This method will first
+     * format the Jest-Ex special paths, expand the globs, transform it with Babel and finally
+     * escape the _invisible lines_ for the coverage.
+     * The changes won't be returned, but made on the current `this.code`.
+     */
+    _parseJS() {
+        if (babel.util.canCompile(this.filepath)) {
+            this._formatSpecialPaths(this.filepath);
+            this._expandUnmockPaths(this.filepath);
+
+            this.code = babel.transform(this.code, {
+                auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
+                filename: this.filepath,
+                presets: [['es2015-node6', { modules: true }]],
+                retainLines: true,
+                plugins: ['transform-runtime'],
+            }).code;
+
+            this.invisibleLines.forEach(line => this._ignoreLine(line));
+        }
+    }
+    /**
+     * Parse the file that it's currently being processed as an HTML file. This method will first
+     * read it from the file system and then use the Webpack HTML loader to format it as a
+     * commonjs module.
+     * The changes won't be returned, but made on the current `this.code`.
+     * This was done by @sergiolepore on a shared project and I just copied it here :P.
+     */
+    _parseHTML() {
+        const contents = fs.readFileSync(this.filepath, 'utf-8');
+        this.code = htmlLoader(contents);
     }
     /**
      * Given a specific line, it this method will find it on the code of the file that it's
@@ -106,23 +151,23 @@ class JestExTransformer {
         const relative = path.relative(path.dirname(this.filepath), this.rootPath);
         [
             {
-                regex: /import (.*?) from '(.*):(.*)';/ig,
+                regex: /import (.*?) from '(?:\/(.+?)\/)(.*)';/ig,
                 replacement: `import $1 from '${relative}/$2/$3';`,
             },
             {
-                regex: /import ({\n(?:[\s\S]*?)}) from '(.*):(.*)';/ig,
+                regex: /import ({\n(?:[\s\S]*?)}) from '(?:\/(.+?)\/)(.*)';/ig,
                 replacement: `import $1 from '${relative}/$2/$3';`,
             },
             {
-                regex: /jest.unmock\('(.*):(.*)'\);/ig,
+                regex: /jest.unmock\('(?:\/(.+?)\/)(.*)'\);/ig,
                 replacement: `jest.unmock('${relative}/$1/$2');`,
             },
             {
-                regex: /jest.(setMock|mock)\('(.*):(.*)',/ig,
+                regex: /jest.(setMock|mock)\('(?:\/(.+?)\/)(.*)',/ig,
                 replacement: `jest.$1('${relative}/$2/$3',`,
             },
             {
-                regex: /require\('(.*):(.*)'\)/ig,
+                regex: /require\('(?:\/(.+?)\/)(.*)'\)/ig,
                 replacement: `require('${relative}/$1/$2')`,
             },
         ].forEach((format) => {

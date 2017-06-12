@@ -6,15 +6,15 @@ A runner and a transformer to simplify (a little bit) your work with Jest.
 
 ## The motivation
 
-First I started with the transformer (the preprocessor at that time) because I was having issues with the code coverage where some _invisible lines_ weren't being tested so my reported showed as _incomplete_. Those lines were _Babel magic_, but Babel/Babel-Jest wasn't adding the Istanbul comment, so I started there, I made a preprocessor that would compile the script with Babel and add the comment for those _invisible lines_.
+First I started with the transformer (the preprocessor at that time) because I was having issues with the code coverage where some _invisible lines_ weren't being tested so my reported showed as _incomplete_. Those lines were _Babel magic_, but Babel wasn't adding the Istanbul comment, so I started there, I made a preprocessor that would compile the script with Babel and add the comment for those _invisible lines_.
 
-After that, and knowing that I had the power to make changes, I started noticing a few things that I didn't like about my tests, like (because I needed to for some cases) having to `jest.unmock` one by one all the files of a directory, when glob patterns are a really common thing on Node apps nowadays; other thing, and this is more Node related than Jest, the fact that because all `require`/`import` has to be relative to the test file, the file header was full of `../../..`. So, I built the ability to use glob patterns on `jest.unmock` and a special format for referencing path relatives to the root of your project.
+After that, and knowing that I had the power to make changes, I started noticing a few things that I didn't like about my tests, like (because I needed to for some cases) having to `jest.unmock` one by one all the files of a directory, when glob patterns are a really common thing on Node apps nowadays; other thing, and this is more Node related than Jest, the fact that because all `require` and `import` have to be relative to the test file, the file header was full of `../../..`. So, I built the ability to use glob patterns on `jest.unmock` and a special format for referencing path relatives to the root of your project.
 
 Now, there was another feature I wanted from Jest, but that it was only partially available: Run only one specific test and collect the coverage just for that file. Jest allows you to specify one test, by sending a regular expression to the CLI command, but it doesn't affect the coverage report, so I test one class and I get a giant report with the coverage information for all the project files... not what I wanted.
 
-The problem with this feature was that I couldn't add it from my preprocessor, I needed to add it before running the tests... thus, a custom runner. So I wrote a custom runner with my feature.
+The problem with this feature was that I couldn't add it from my preprocessor, I needed to add it before running the tests... thus, a custom runner. I wrote a custom runner with my feature.
 
-Finally, with my runner and transformer, I assumed I could connect them (make the runner automatically register the transformer) and publish it as a library.
+Finally, with my runner and transformer, I assumed I could connect them (make the runner automatically register the transformer) and publish it as a library... and here we are.
 
 ## Information
 
@@ -52,8 +52,8 @@ new JestExRunner('./jest.json', {
 .run()
 ```
 
-- `addTransformer`: If you set it to `true`, it will automatically add the Jest-Ex transformer to your Jest configuration.
-- `addStubs`: It will modify your Jest configuration in order to add stubs for images, stylesheets and HTML files. Really useful for when you work with Webpack and have `require`s for this kind of files.
+- `addTransformer`: If you set it to `true`, it will automatically add the Jest-Ex transformer to your Jest configuration. The Jest-Ex transformer will parse your `.js(x)` files with Babel and your `.html` with the [Webpack HTML loader](https://www.npmjs.com/package/html-loader).
+- `addStubs`: It will modify your Jest configuration in order to add stubs for images and stylesheets. Really useful for when you work with Webpack and have `require`s for this kind of files.
 - `runInParallel`: Whether you want Jest to run the tests one by one or in parallel.
 - `cache`: Whether you want to use the Jest cache or not.
 
@@ -127,23 +127,23 @@ As I mention at the beginning, this is more of Node thing, and IMO, it makes you
 
 The transformer assumes that you run the script that executes the runner from your project root directory, and by assuming that, it allows you to use this kind of paths on your `require`/`import`/`unmock`/`mock`:
 
-> [folder-on-the-root]:[path-to-your-file]
+> /[folder-on-the-root]/[path-to-your-file]
 
 Let's see a few examples:
 
 ```js
 // This file is on <root>/tests/folder/myfile.js
 
-jest.unmock('src:tools/someTool');
+jest.unmock('/src/tools/someTool');
 // -> jest.unmock('../../tools/someTool');
 
-jest.mock('src:utils/someUtils', () => {});
+jest.mock('/src/utils/someUtils', () => {});
 // -> jest.mock('../../utils/someUtils', () => {});
 
-import someTool from 'src:tools/someTool';
+import someTool from '/src/tools/someTool';
 // -> import someTool from '../../tools/someTool';
 
-const someUtils = require('src:utils/someUtils');
+const someUtils = require('/src/utils/someUtils');
 // -> const someUtils = require('../../utils/someUtils');
 ```
 

@@ -74,7 +74,6 @@ class JestExRunner {
         this.stubsRegexs = {
             images: '^[\\.\\/a-zA-Z0-9$_-]+\\.(jpe?g|png|gif|svg)$',
             styles: '^[\\.\\/a-zA-Z0-9$_-]+\\.s?css$',
-            html: '^[\\.\\/a-zA-Z0-9$_-]+\\.html',
         };
 
         if (addTransformer) {
@@ -98,7 +97,7 @@ class JestExRunner {
      * @return {JestExRunner} The current instance of this object, so it can be chained to another
      *                        method.
      */
-    addStubs(stubs = ['images', 'styles', 'html']) {
+    addStubs(stubs = ['images', 'styles']) {
         const newConfig = {};
         stubs.forEach((name) => {
             const regex = this.stubsRegexs[name];
@@ -127,7 +126,7 @@ class JestExRunner {
                 config: this.config,
                 runInBand: this.runInBand,
                 cache: this.cache,
-            }, this.config.rootDir, (success) => {
+            }, [this.config.rootDir], (success) => {
                 if (success) {
                     resolve();
                 } else {

@@ -5,7 +5,7 @@
     "coverageDirectory": "coverage",
     "coveragePathIgnorePatterns": ["/node_modules/", "/mocks/"],
     "testRegex": "\\.test\\.js$",
-    "testPathDirs": ["<rootDir>/tests"],
+    "roots": ["<rootDir>/tests"],
     "unmockedModulePathPatterns": [
         "mocks",
         "<rootDir>/node_modules/jest-cli",
