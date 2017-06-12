@@ -150,23 +150,23 @@ class JestExTransformer {
         const relative = path.relative(path.dirname(this.filepath), this.rootPath);
         [
             {
-                regex: /import (.*?) from '(.*):(.*)';/ig,
+                regex: /import (.*?) from '(?:\/(.+?)\/)(.*)';/ig,
                 replacement: `import $1 from '${relative}/$2/$3';`,
             },
             {
-                regex: /import ({\n(?:[\s\S]*?)}) from '(.*):(.*)';/ig,
+                regex: /import ({\n(?:[\s\S]*?)}) from '(?:\/(.+?)\/)(.*)';/ig,
                 replacement: `import $1 from '${relative}/$2/$3';`,
             },
             {
-                regex: /jest.unmock\('(.*):(.*)'\);/ig,
+                regex: /jest.unmock\('(?:\/(.+?)\/)(.*)'\);/ig,
                 replacement: `jest.unmock('${relative}/$1/$2');`,
             },
             {
-                regex: /jest.(setMock|mock)\('(.*):(.*)',/ig,
+                regex: /jest.(setMock|mock)\('(?:\/(.+?)\/)(.*)',/ig,
                 replacement: `jest.$1('${relative}/$2/$3',`,
             },
             {
-                regex: /require\('(.*):(.*)'\)/ig,
+                regex: /require\('(?:\/(.+?)\/)(.*)'\)/ig,
                 replacement: `require('${relative}/$1/$2')`,
             },
         ].forEach((format) => {

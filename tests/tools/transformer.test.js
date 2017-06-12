@@ -60,27 +60,27 @@ describe('JestExTransformer', () => {
         const rootPath = path.relative(__dirname, process.cwd());
         const cases = [
             {
-                original: 'import file from \'src:folder/file\';',
+                original: 'import file from \'/src/folder/file\';',
                 expected: `import file from '${rootPath}/src/folder/file';`,
             },
             {
-                original: 'import {\nutil,\ntool\n} from \'src:folder/file\';',
+                original: 'import {\nutil,\ntool\n} from \'/src/folder/file\';',
                 expected: `import {\nutil,\ntool\n} from '${rootPath}/src/folder/file';`,
             },
             {
-                original: 'jest.unmock(\'src:folder/file\');',
+                original: 'jest.unmock(\'/src/folder/file\');',
                 expected: `jest.unmock('${rootPath}/src/folder/file');`,
             },
             {
-                original: 'jest.mock(\'src:folder/file\', () => {});',
+                original: 'jest.mock(\'/src/folder/file\', () => {});',
                 expected: `jest.mock('${rootPath}/src/folder/file', () => {});`,
             },
             {
-                original: 'jest.setMock(\'src:folder/file\', () => {});',
+                original: 'jest.setMock(\'/src/folder/file\', () => {});',
                 expected: `jest.setMock('${rootPath}/src/folder/file', () => {});`,
             },
             {
-                original: 'jest.require(\'src:folder/file\');',
+                original: 'jest.require(\'/src/folder/file\');',
                 expected: `jest.require('${rootPath}/src/folder/file');`,
             },
         ];
@@ -94,7 +94,7 @@ describe('JestExTransformer', () => {
     });
 
     it('should expand globs on \'unmock\' calls', () => {
-        const code = 'jest.unmock(\'src:tools/**\')';
+        const code = 'jest.unmock(\'/src/tools/**\')';
         const relative = '../../src/tools';
         const thispath = path.join(__dirname, relative);
         const files = ['A', 'B'];
@@ -108,7 +108,7 @@ describe('JestExTransformer', () => {
     });
 
     it('should expand an \'unmock\' glob with an ignore pattern', () => {
-        const code = 'jest.unmock(\'src:tools/**!A\')';
+        const code = 'jest.unmock(\'/src/tools/**!A\')';
         const relative = '../../src/tools';
         const thispath = path.join(__dirname, relative);
         const files = ['A', 'B'];
@@ -120,7 +120,7 @@ describe('JestExTransformer', () => {
     });
 
     it('should expand an \'unmock\' glob with an invalid ignore pattern', () => {
-        const code = 'jest.unmock(\'src:tools/**!\')';
+        const code = 'jest.unmock(\'/src/tools/**!\')';
         const relative = '../../src/tools';
         const thispath = path.join(__dirname, relative);
         const files = ['A', 'B'];
@@ -134,7 +134,7 @@ describe('JestExTransformer', () => {
     });
 
     it('should expand an \'unmock\' glob with an ignore pattern list', () => {
-        const code = 'jest.unmock(\'src:tools/**!fileA,fileC\')';
+        const code = 'jest.unmock(\'/src/tools/**!fileA,fileC\')';
         const relative = '../../src/tools';
         const thispath = path.join(__dirname, relative);
         const files = ['A', 'B', 'C'];
@@ -146,14 +146,14 @@ describe('JestExTransformer', () => {
     });
 
     it('should ignore a file if it doesn\'t have a javascript extension', () => {
-        const code = 'jest.unmock(\'src:tools/**!\')';
+        const code = 'jest.unmock(\'/src/tools/**!\')';
         const transformer = new JestExTransformer();
         const result = transformer.process(code, 'file.css');
         expect(result).toBe(code);
     });
 
     it('should ignore a file if it can\'t be compiled by Babel', () => {
-        const code = 'jest.unmock(\'src:tools/**!\')';
+        const code = 'jest.unmock(\'/src/tools/**!\')';
         babel.util.canCompile.mockReturnValueOnce(false);
         const transformer = new JestExTransformer();
         const result = transformer.process(code, 'file.js');
