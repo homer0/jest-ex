@@ -108,7 +108,13 @@ class JestExTransformer {
       this.code = babel.transform(this.code, {
         auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
         filename: this.filepath,
-        presets: [['es2015-node6', { modules: true }]],
+        presets: [
+          ['env', {
+            targets: {
+              node: 'current',
+            },
+          }],
+        ],
         retainLines: true,
         plugins: ['transform-runtime'],
       }).code;

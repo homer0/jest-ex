@@ -120,13 +120,9 @@ class JestExRunner {
   *                   everything went well, or rejected, if something happend.
   */
   run() {
-    this.config.rootDir = this.rootPath;
+    const config = this._getFormattedConfig();
     return new Promise((resolve, reject) => {
-      jestCLI.runCLI({
-        config: this.config,
-        runInBand: this.runInBand,
-        cache: this.cache,
-      }, [this.config.rootDir], (success) => {
+      jestCLI.runCLI(config, [config.rootDir], (success) => {
         if (success) {
           resolve();
         } else {
@@ -200,6 +196,29 @@ class JestExRunner {
   */
   _getProjectFilePath(filepath) {
     return path.resolve(path.relative(this.rootPath, path.join(__dirname, filepath)));
+  }
+  /**
+   * Prepares the configuration to be sent to Jest by adding the options for cache and parallel
+   * runs; then, it converts any dictionary on the configuration to JSON string, because that's
+   * the way Jest accepts them.
+   * @return {Object} A configuration dictionary that can be used on the Jest `runCLI` method.
+   */
+  _getFormattedConfig() {
+    const config = Object.assign({}, this.config, {
+      rootDir: this.rootPath,
+      runInBand: this.runInBand,
+      cache: this.cache,
+    });
+
+    const stringified = {};
+    Object.keys(config).forEach((key) => {
+      const value = config[key];
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        stringified[key] = JSON.stringify(value);
+      }
+    });
+
+    return Object.assign({}, config, stringified);
   }
 }
 

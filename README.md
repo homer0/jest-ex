@@ -1,6 +1,6 @@
 # Jest-Ex
 
-[![Build Status](https://travis-ci.org/homer0/jest-ex.svg?branch=master)](https://travis-ci.org/homer0/jest-ex) [![Coverage Status](https://coveralls.io/repos/homer0/jest-ex/badge.svg?branch=master&service=github)](https://coveralls.io/github/homer0/jest-ex?branch=master) [![Documentation Status](https://doc.esdoc.org/github.com/homer0/jest-ex/badge.svg)](https://doc.esdoc.org/github.com/homer0/jest-ex/) [![Dependencies status](https://david-dm.org/homer0/jest-ex.svg)](https://david-dm.org/homer0/jest-ex) [![Dev dependencies status](https://david-dm.org/homer0/jest-ex/dev-status.svg)](https://david-dm.org/homer0/jest-ex#info=devDependencies)
+[![Build Status](https://travis-ci.org/homer0/jest-ex.svg?branch=master)](https://travis-ci.org/homer0/jest-ex) [![Coverage Status](https://coveralls.io/repos/homer0/jest-ex/badge.svg?branch=master&service=github)](https://coveralls.io/github/homer0/jest-ex?branch=master) [![Dependencies status](https://david-dm.org/homer0/jest-ex.svg)](https://david-dm.org/homer0/jest-ex) [![Dev dependencies status](https://david-dm.org/homer0/jest-ex/dev-status.svg)](https://david-dm.org/homer0/jest-ex#info=devDependencies)
 
 A runner and a transformer to simplify (a little bit) your work with Jest.
 

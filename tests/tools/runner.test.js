@@ -159,13 +159,39 @@ describe('JestExRunner', () => {
     .run()
     .then(() => {
       expect(jestCLI.runCLI.mock.calls.length).toBe(1);
-      expect(jestCLI.runCLI.mock.calls[0][0]).toEqual(Object.assign({}, {
-        config: Object.assign({}, config, {
-          rootDir: runner.rootPath,
-        }),
+      expect(jestCLI.runCLI.mock.calls[0][0]).toEqual(Object.assign({}, config, {
+        rootDir: runner.rootPath,
         runInBand: true,
         cache: false,
       }));
+
+      expect(jestCLI.runCLI.mock.calls[0][1][0]).toEqual(runner.rootPath);
+    });
+  });
+
+  it('should format the dictionaries on the configuration to JSON strings', () => {
+    const configToFormat = {
+      list: ['one', 'two', 'three'],
+      dictionary: {
+        keyOne: 'one',
+        keyTwo: 'two',
+      },
+      hello: 'charito',
+    };
+
+    const runner = new JestExRunner(configToFormat);
+    return runner
+    .run()
+    .then(() => {
+      expect(jestCLI.runCLI.mock.calls.length).toBe(1);
+      expect(jestCLI.runCLI.mock.calls[0][0]).toEqual({
+        rootDir: runner.rootPath,
+        runInBand: true,
+        cache: false,
+        list: configToFormat.list,
+        hello: configToFormat.hello,
+        dictionary: JSON.stringify(configToFormat.dictionary),
+      });
 
       expect(jestCLI.runCLI.mock.calls[0][1][0]).toEqual(runner.rootPath);
     });
