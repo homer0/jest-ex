@@ -5,6 +5,6 @@
  * will automatically set it as the stub for all your `.css` and `.scss` files.
  */
 export default {
-    path: '/charito.css',
-    media: 'all',
+  path: '/charito.css',
+  media: 'all',
 };

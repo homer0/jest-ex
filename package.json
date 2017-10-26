@@ -13,30 +13,30 @@
     ],
     "dependencies": {
         "glob": "7.1.2",
-        "babel-core": "6.25.0",
+        "babel-core": "6.26.0",
         "babel-plugin-transform-runtime": "6.23.0",
-        "babel-preset-es2015-node6": "0.4.0",
-        "yargs": "8.0.1",
-        "jest-cli": "20.0.4",
-        "html-loader": "0.4.5"
+        "babel-preset-env": "1.6.1",
+        "yargs": "10.0.3",
+        "html-loader": "0.5.1"
+    },
+    "peerDependencies": {
+        "jest-cli": "^21.2.1"
     },
     "devDependencies": {
-        "babel-cli": "6.24.1",
+        "jest-cli": "^21.2.1",
+        "babel-cli": "6.26.0",
 
-        "eslint": "3.19.0",
-        "eslint-config-airbnb": "15.0.1",
+        "eslint": "4.9.0",
+        "eslint-config-airbnb-base": "12.1.0",
+        "eslint-plugin-import": "2.8.0",
+        "eslint-plugin-node": "5.2.1",
 
-        "eslint-plugin-jsx-a11y": "5.0.3",
-        "eslint-plugin-import": "2.3.0",
-        "eslint-plugin-react": "7.0.1",
+        "jasmine-expect": "3.7.1",
 
-        "jasmine-expect": "3.7.0",
+        "esdoc": "1.0.3",
+        "esdoc-standard-plugin": "1.0.0",
 
-        "esdoc": "0.4.8",
-        "esdoc-es7-plugin": "0.0.3",
-        "esdoc-uploader": "1.0.1",
-
-        "coveralls": "2.13.1"
+        "coveralls": "3.0.0"
     },
     "engine-strict": true,
     "engines": {
@@ -50,7 +50,7 @@
         "test": "./utils/scripts/test",
         "lint": "./utils/scripts/lint",
         "docs": "./utils/scripts/docs",
-        "docs:deploy": "./utils/scripts/deploy-docs",
+        "docs:deploy": "echo \"Documentation deploy was removed until I update the library\"",
         "prepublish": "npm run build"
     }
 }

@@ -8,4 +8,4 @@ import { JestExTransformer } from './index';
  * @type {JestExTransformer}
  * @ignore
  */
-export const process = new JestExTransformer().process;
+export const { process } = new JestExTransformer();
