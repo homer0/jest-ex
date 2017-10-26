@@ -5,8 +5,8 @@
  * will automatically set it as the stub for all your images.
  */
 export default {
-    path: '/charito.png',
-    uri: 'icon',
-    width: 100,
-    height: 100,
+  path: '/charito.png',
+  uri: 'icon',
+  width: 100,
+  height: 100,
 };
