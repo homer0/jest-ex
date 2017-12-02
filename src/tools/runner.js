@@ -121,15 +121,7 @@ class JestExRunner {
   */
   run() {
     const config = this._getFormattedConfig();
-    return new Promise((resolve, reject) => {
-      jestCLI.runCLI(config, [config.rootDir], (success) => {
-        if (success) {
-          resolve();
-        } else {
-          reject();
-        }
-      });
-    });
+    return jestCLI.runCLI(config, [config.rootDir]);
   }
   /**
   * Inject the path of the Jest-Ex Transformer to the Jest configuration. The transformer only
