@@ -29,7 +29,7 @@ describe('JestExRunner', () => {
     const runner = new JestExRunner(config);
     expect(runner instanceof JestExRunner).toBeTrue();
     expect(runner.config).toEqual(config);
-    expect(runner.runInBand).toBeTrue();
+    expect(runner.runInBand).toBeFalse();
     expect(runner.cache).toBeFalse();
     expect(Object.keys(runner.stubsRegexs)).toEqual(['images', 'styles']);
   });
@@ -160,7 +160,7 @@ describe('JestExRunner', () => {
       expect(jestCLI.runCLI.mock.calls.length).toBe(1);
       expect(jestCLI.runCLI.mock.calls[0][0]).toEqual(Object.assign({}, config, {
         rootDir: runner.rootPath,
-        runInBand: true,
+        runInBand: false,
         cache: false,
       }));
 
@@ -178,7 +178,7 @@ describe('JestExRunner', () => {
       hello: 'charito',
     };
 
-    const runner = new JestExRunner(configToFormat);
+    const runner = new JestExRunner(configToFormat, { runInParallel: false });
     return runner
     .run()
     .then(() => {

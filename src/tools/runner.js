@@ -59,7 +59,7 @@ class JestExRunner {
     * on the Jest configuration is `runInBand`..
     * @type {Boolean}
     */
-    this.runInBand = !runInParallel;
+    this.runInBand = (typeof runInParallel !== 'undefined' ? !runInParallel : false);
     /**
     * Whether the Jest runner will use cache or not.
     * @type {Boolean}
