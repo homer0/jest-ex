@@ -173,10 +173,7 @@ class JestExRunner {
       );
 
       if (coverageFiles.length) {
-        this.config.collectCoverageOnlyFrom = {};
-        coverageFiles.forEach((file) => {
-          this.config.collectCoverageOnlyFrom[file] = true;
-        });
+        this.config.collectCoverageOnlyFrom = coverageFiles.slice();
       }
     }
   }

@@ -108,8 +108,7 @@ describe('JestExRunner', () => {
 
     expect(runner.config.testPathIgnorePatterns).toBeArray();
     expect(runner.config.testPathIgnorePatterns[0]).toEqual(regex);
-    expect(runner.config.collectCoverageOnlyFrom).toBeObject();
-    expect(runner.config.collectCoverageOnlyFrom[file]).toBeTrue();
+    expect(runner.config.collectCoverageOnlyFrom).toEqual([file]);
 
     expect(fileFinder.mock.calls.length).toBe(1);
     expect(fileFinder.mock.calls[0][0]).toBe(path.join(__dirname, '../../src'));
