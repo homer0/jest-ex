@@ -59,7 +59,7 @@ class JestExRunner {
     * on the Jest configuration is `runInBand`..
     * @type {Boolean}
     */
-    this.runInBand = !runInParallel;
+    this.runInBand = (typeof runInParallel !== 'undefined' ? !runInParallel : false);
     /**
     * Whether the Jest runner will use cache or not.
     * @type {Boolean}
@@ -121,7 +121,8 @@ class JestExRunner {
   */
   run() {
     const config = this._getFormattedConfig();
-    return jestCLI.runCLI(config, [config.rootDir]);
+    return jestCLI.runCLI(config, [config.rootDir])
+    .then(data => (data.results.success ? data : Promise.reject(data)));
   }
   /**
   * Inject the path of the Jest-Ex Transformer to the Jest configuration. The transformer only
@@ -172,10 +173,7 @@ class JestExRunner {
       );
 
       if (coverageFiles.length) {
-        this.config.collectCoverageOnlyFrom = {};
-        coverageFiles.forEach((file) => {
-          this.config.collectCoverageOnlyFrom[file] = true;
-        });
+        this.config.collectCoverageOnlyFrom = coverageFiles.slice();
       }
     }
   }
