@@ -3,7 +3,7 @@ const babel = {
   util: {
     canCompile: jest.fn(() => babel.validFile),
   },
-  transform: jest.fn(code => ({ code })),
+  transform: jest.fn((code) => ({ code })),
   preset: 'mocked-preset',
 };
 

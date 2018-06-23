@@ -3,6 +3,7 @@
   "rules": {
     "no-plusplus": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "arrow-parens": ["error", "always"],
     "comma-dangle": ["error", {
         "arrays": "always-multiline",
         "objects": "always-multiline",
