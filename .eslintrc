@@ -13,6 +13,7 @@
     indent: ['error', 2, {
       MemberExpression: 0,
     }],
-    "import/no-dynamic-require": "off"
+    "import/no-dynamic-require": "off",
+    "lines-between-class-members": "off"
   }
 }
