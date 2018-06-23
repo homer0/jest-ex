@@ -48,7 +48,6 @@
       "test": "./utils/scripts/test",
       "lint": "./utils/scripts/lint",
       "docs": "./utils/scripts/docs",
-      "docs:deploy": "echo \"Documentation deploy was removed until I update the library\"",
       "prepublish": "npm run build"
     }
 }
