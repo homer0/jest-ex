@@ -3,7 +3,7 @@
     "verbose": true,
     "collectCoverage": true,
     "coverageDirectory": "coverage",
-    "coveragePathIgnorePatterns": ["/node_modules/", "/mocks/"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/mocks/", "/stubs/"],
     "testRegex": "\\.test\\.js$",
     "roots": ["<rootDir>/tests"],
     "unmockedModulePathPatterns": [

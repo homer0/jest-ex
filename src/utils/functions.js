@@ -6,10 +6,10 @@
  * console.log(escapeRegex('./some-path/'));
  * // It would output '\\./some\\-path/'
  *
- * @param  {String} s The string to escape
+ * @param  {String} str The string to escape
  * @return {String} The escaped string.
  */
-const escapeRegex = s => s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+const escapeRegex = (str) => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
 export default {
   escapeRegex,

@@ -3,6 +3,7 @@
   "rules": {
     "no-plusplus": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "arrow-parens": ["error", "always"],
     "comma-dangle": ["error", {
         "arrays": "always-multiline",
         "objects": "always-multiline",
@@ -13,6 +14,7 @@
     indent: ['error', 2, {
       MemberExpression: 0,
     }],
-    "import/no-dynamic-require": "off"
+    "import/no-dynamic-require": "off",
+    "lines-between-class-members": "off"
   }
 }

@@ -6,53 +6,48 @@
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
     "keywords": [
-        "jest",
-        "jasmine",
-        "tests",
-        "unit"
+      "jest",
+      "jasmine",
+      "tests",
+      "unit"
     ],
     "dependencies": {
-        "glob": "7.1.2",
-        "babel-core": "6.26.0",
-        "babel-plugin-transform-runtime": "6.23.0",
-        "yargs": "10.0.3",
-        "html-loader": "0.5.1"
-    },
-    "peerDependencies": {
-        "jest-cli": "^22.0.4",
-        "babel-preset-env": "^1.6.1"
+      "glob": "7.1.2",
+      "babel-core": "6.26.3",
+      "babel-plugin-transform-runtime": "6.23.0",
+      "yargs": "11.0.0",
+      "html-loader": "0.5.5",
+      "jest-cli": "^23.1.0",
+      "babel-preset-env": "^1.7.0"
     },
     "devDependencies": {
-        "jest-cli": "^22.0.4",
-        "babel-preset-env": "^1.6.1",
-        "babel-cli": "6.26.0",
-        "babel-jest": "21.2.0",
+      "babel-cli": "6.26.0",
+      "babel-jest": "23.0.1",
 
-        "eslint": "4.9.0",
-        "eslint-config-airbnb-base": "12.1.0",
-        "eslint-plugin-import": "2.8.0",
-        "eslint-plugin-node": "5.2.1",
+      "eslint": "4.19.1",
+      "eslint-config-airbnb-base": "13.0.0",
+      "eslint-plugin-import": "2.12.0",
+      "eslint-plugin-node": "6.0.1",
 
-        "jasmine-expect": "3.7.1",
+      "jasmine-expect": "3.8.3",
 
-        "esdoc": "1.0.3",
-        "esdoc-standard-plugin": "1.0.0",
+      "esdoc": "1.1.0",
+      "esdoc-standard-plugin": "1.0.0",
 
-        "coveralls": "3.0.0"
+      "coveralls": "3.0.1"
     },
     "engine-strict": true,
     "engines": {
-        "node": ">=6.10.0",
-        "npm": ">=3.0.0"
+      "node": ">=6.10.0",
+      "npm": ">=3.0.0"
     },
     "main": "dist/index.js",
     "scripts": {
-        "install-hooks": "./utils/hooks/install",
-        "build": "./utils/scripts/build",
-        "test": "./utils/scripts/test",
-        "lint": "./utils/scripts/lint",
-        "docs": "./utils/scripts/docs",
-        "docs:deploy": "echo \"Documentation deploy was removed until I update the library\"",
-        "prepublish": "npm run build"
+      "hooks": "./utils/hooks/install",
+      "build": "./utils/scripts/build",
+      "test": "./utils/scripts/test",
+      "lint": "./utils/scripts/lint",
+      "docs": "./utils/scripts/docs",
+      "prepublish": "npm run build"
     }
 }

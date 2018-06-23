@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 jest.mock('../../src/babel.js', () => require('../mocks/mock.babel'));
 jest.mock('glob', () => ({ sync: jest.fn() }));
-jest.mock('html-loader', () => jest.fn(code => code));
+jest.mock('html-loader', () => jest.fn((code) => code));
 jest.mock('fs', () => ({ readFileSync: jest.fn() }));
 
 jest.unmock('path');
@@ -22,41 +22,53 @@ describe('JestExTransformer', () => {
   });
 
   it('should create a new instance of the transformer and set the default properties', () => {
-    const transformer = new JestExTransformer();
-    expect(transformer instanceof JestExTransformer).toBeTrue();
-    expect(transformer.invisibleLines).toBeArray();
-    expect(transformer.ignoreLineComment).toBeString();
+    // Given
+    let sut = null;
+    // When
+    sut = new JestExTransformer();
+    // Then
+    expect(sut).toBeInstanceOf(JestExTransformer);
+    expect(sut.invisibleLines).toBeArray();
+    expect(sut.ignoreLineComment).toBeString();
   });
 
   it('should process a file with Babel', () => {
+    // Given
     const code = 'some-code';
     const fpath = 'some/file.js';
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, fpath);
-
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, fpath);
+    // Then
     expect(result).toBe(code);
-    expect(babel.util.canCompile.mock.calls.length).toEqual(1);
-    expect(babel.util.canCompile.mock.calls[0][0]).toEqual(fpath);
-    expect(babel.transform.mock.calls.length).toEqual(1);
-    expect(babel.transform.mock.calls[0][0]).toEqual(code);
+    expect(babel.util.canCompile).toHaveBeenCalledTimes(1);
+    expect(babel.util.canCompile).toHaveBeenCalledWith(fpath);
+    expect(babel.transform).toHaveBeenCalledTimes(1);
+    expect(babel.transform).toHaveBeenCalledWith(code, expect.any(Object));
   });
 
   it('should process an HTML file', () => {
+    // Given
     const code = '<strong>some-code</strong>';
     const fpath = 'some/file.html';
-    const { readFileSync } = fs;
-    readFileSync.mockImplementation(() => code);
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, fpath);
-
+    fs.readFileSync.mockImplementation(() => code);
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, fpath);
+    // Then
     expect(result).toBe(code);
-    expect(readFileSync.mock.calls.length).toEqual(1);
-    expect(readFileSync.mock.calls[0][0]).toEqual(fpath);
-    expect(htmlLoader.mock.calls.length).toEqual(1);
-    expect(htmlLoader.mock.calls[0][0]).toEqual(code);
+    expect(fs.readFileSync).toHaveBeenCalledTimes(1);
+    expect(fs.readFileSync).toHaveBeenCalledWith(fpath, 'utf-8');
+    expect(htmlLoader).toHaveBeenCalledTimes(1);
+    expect(htmlLoader).toHaveBeenCalledWith(code);
   });
 
   it('should format the special paths Jest-Ex allows', () => {
+    // Given
     const rootPath = path.relative(__dirname, process.cwd());
     const cases = [
       {
@@ -85,22 +97,31 @@ describe('JestExTransformer', () => {
       },
     ];
     const separator = '\n\n';
-    const code = cases.map(c => c.original).join(separator);
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, __filename);
+    const code = cases.map((testCase) => testCase.original).join(separator);
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, __filename);
+    // Then
     result.split(separator).forEach((line, i) => {
       expect(line).toBe(cases[i].expected);
     });
   });
 
   it('should expand globs on \'unmock\' calls', () => {
+    // Given
     const code = 'jest.unmock(\'/src/tools/**\')';
     const relative = '../../src/tools';
     const thispath = path.join(__dirname, relative);
     const files = ['A', 'B'];
-    glob.sync.mockReturnValueOnce(files.map(f => path.join(thispath, `file${f}.js`)));
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, __filename);
+    glob.sync.mockReturnValueOnce(files.map((file) => path.join(thispath, `file${file}.js`)));
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, __filename);
+    // Then
     result.trim().split('\n').forEach((line, i) => {
       const linepath = path.join(relative, `file${files[i]}.js`);
       expect(line).toBe(`jest.unmock('${linepath}');`);
@@ -108,25 +129,35 @@ describe('JestExTransformer', () => {
   });
 
   it('should expand an \'unmock\' glob with an ignore pattern', () => {
+    // Given
     const code = 'jest.unmock(\'/src/tools/**!A\')';
     const relative = '../../src/tools';
     const thispath = path.join(__dirname, relative);
     const files = ['A', 'B'];
-    glob.sync.mockReturnValueOnce(files.map(f => path.join(thispath, `file${f}.js`)));
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, __filename);
+    glob.sync.mockReturnValueOnce(files.map((file) => path.join(thispath, `file${file}.js`)));
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, __filename);
+    // Then
     const fpath = path.join(relative, 'fileB.js');
     expect(result.trim()).toBe(`jest.unmock('${fpath}');`);
   });
 
   it('should expand an \'unmock\' glob with an invalid ignore pattern', () => {
+    // Given
     const code = 'jest.unmock(\'/src/tools/**!\')';
     const relative = '../../src/tools';
     const thispath = path.join(__dirname, relative);
     const files = ['A', 'B'];
-    glob.sync.mockReturnValueOnce(files.map(f => path.join(thispath, `file${f}.js`)));
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, __filename);
+    glob.sync.mockReturnValueOnce(files.map((file) => path.join(thispath, `file${file}.js`)));
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, __filename);
+    // Then
     result.trim().split('\n').forEach((line, i) => {
       const linepath = path.join(relative, `file${files[i]}.js`);
       expect(line).toBe(`jest.unmock('${linepath}');`);
@@ -134,29 +165,44 @@ describe('JestExTransformer', () => {
   });
 
   it('should expand an \'unmock\' glob with an ignore pattern list', () => {
+    // Given
     const code = 'jest.unmock(\'/src/tools/**!fileA,fileC\')';
     const relative = '../../src/tools';
     const thispath = path.join(__dirname, relative);
     const files = ['A', 'B', 'C'];
-    glob.sync.mockReturnValueOnce(files.map(f => path.join(thispath, `file${f}.js`)));
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, __filename);
-    const fpath = path.join(relative, 'fileB.js');
-    expect(result.trim()).toBe(`jest.unmock('${fpath}');`);
+    glob.sync.mockReturnValueOnce(files.map((file) => path.join(thispath, `file${file}.js`)));
+    let sut = null;
+    let result = null;
+    const expectedFilepath = path.join(relative, 'fileB.js');
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, __filename).trim();
+    // Then
+    expect(result).toBe(`jest.unmock('${expectedFilepath}');`);
   });
 
   it('should ignore a file if it doesn\'t have a javascript extension', () => {
+    // Given
     const code = 'jest.unmock(\'/src/tools/**!\')';
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, 'file.css');
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, 'file.css');
+    // Then
     expect(result).toBe(code);
   });
 
   it('should ignore a file if it can\'t be compiled by Babel', () => {
+    // Given
     const code = 'jest.unmock(\'/src/tools/**!\')';
     babel.util.canCompile.mockReturnValueOnce(false);
-    const transformer = new JestExTransformer();
-    const result = transformer.process(code, 'file.js');
+    let sut = null;
+    let result = null;
+    // When
+    sut = new JestExTransformer();
+    result = sut.process(code, 'file.js');
+    // Then
     expect(result).toBe(code);
   });
 });
