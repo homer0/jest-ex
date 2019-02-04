@@ -43,8 +43,6 @@ describe('JestExTransformer', () => {
     result = sut.process(code, fpath);
     // Then
     expect(result).toBe(code);
-    expect(babel.util.canCompile).toHaveBeenCalledTimes(1);
-    expect(babel.util.canCompile).toHaveBeenCalledWith(fpath);
     expect(babel.transform).toHaveBeenCalledTimes(1);
     expect(babel.transform).toHaveBeenCalledWith(code, expect.any(Object));
   });
@@ -189,19 +187,6 @@ describe('JestExTransformer', () => {
     // When
     sut = new JestExTransformer();
     result = sut.process(code, 'file.css');
-    // Then
-    expect(result).toBe(code);
-  });
-
-  it('should ignore a file if it can\'t be compiled by Babel', () => {
-    // Given
-    const code = 'jest.unmock(\'/src/tools/**!\')';
-    babel.util.canCompile.mockReturnValueOnce(false);
-    let sut = null;
-    let result = null;
-    // When
-    sut = new JestExTransformer();
-    result = sut.process(code, 'file.js');
     // Then
     expect(result).toBe(code);
   });
