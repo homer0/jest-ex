@@ -102,26 +102,24 @@ class JestExTransformer {
    * @ignore
    */
   _parseJS() {
-    if (babel.util.canCompile(this.filepath)) {
-      this._formatSpecialPaths(this.filepath);
-      this._expandUnmockPaths(this.filepath);
+    this._formatSpecialPaths(this.filepath);
+    this._expandUnmockPaths(this.filepath);
 
-      this.code = babel.transform(this.code, {
-        auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
-        filename: this.filepath,
-        presets: [
-          ['env', {
-            targets: {
-              node: 'current',
-            },
-          }],
-        ],
-        retainLines: true,
-        plugins: ['transform-runtime'],
-      }).code;
+    this.code = babel.transform(this.code, {
+      auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
+      filename: this.filepath,
+      presets: [
+        ['env', {
+          targets: {
+            node: 'current',
+          },
+        }],
+      ],
+      retainLines: true,
+      plugins: ['transform-runtime'],
+    }).code;
 
-      this.invisibleLines.forEach((line) => this._ignoreLine(line));
-    }
+    this.invisibleLines.forEach((line) => this._ignoreLine(line));
   }
   /**
    * Parse the file that it's currently being processed as an HTML file. This method will first
