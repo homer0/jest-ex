@@ -109,14 +109,14 @@ class JestExTransformer {
       auxiliaryCommentBefore: ` ${this.ignoreLineComment} `,
       filename: this.filepath,
       presets: [
-        ['env', {
+        ['@babel/preset-env', {
           targets: {
             node: 'current',
           },
         }],
       ],
       retainLines: true,
-      plugins: ['transform-runtime'],
+      plugins: ['@babel/plugin-transform-runtime'],
     }).code;
 
     this.invisibleLines.forEach((line) => this._ignoreLine(line));
