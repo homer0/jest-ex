@@ -44,6 +44,6 @@
       "test": "./utils/scripts/test",
       "lint": "./utils/scripts/lint",
       "docs": "./utils/scripts/docs",
-      "prepublish": "npm run build"
+      "prepare": "npm run build"
     }
 }
