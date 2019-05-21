@@ -5,5 +5,4 @@ node_js:
 os:
   - linux
   - windows
-after_success:
-  - 'if [[ "$TRAVIS_OS_NAME" != 'windows' ]]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi'
+after_success: if [[ "$TRAVIS_OS_NAME" != 'windows' ]]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi
