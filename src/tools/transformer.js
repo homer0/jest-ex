@@ -159,7 +159,9 @@ class JestExTransformer {
    * @ignore
    */
   _formatSpecialPaths() {
-    const relative = path.relative(path.dirname(this.filepath), this.rootPath);
+    const relative = path
+    .relative(path.dirname(this.filepath), this.rootPath)
+    .replace(/\\/g, '/');
     [
       {
         regex: /import (.*?) from '(?:\/(.+?)\/)(.*)';/ig,

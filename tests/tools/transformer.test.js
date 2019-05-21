@@ -67,7 +67,9 @@ describe('JestExTransformer', () => {
 
   it('should format the special paths Jest-Ex allows', () => {
     // Given
-    const rootPath = path.relative(__dirname, process.cwd());
+    const rootPath = path
+    .relative(__dirname, process.cwd())
+    .replace(/\\/g, '/');
     const cases = [
       {
         original: 'import file from \'/src/folder/file\';',
