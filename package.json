@@ -44,6 +44,7 @@
       "test": "./utils/scripts/test",
       "lint": "./utils/scripts/lint",
       "docs": "./utils/scripts/docs",
-      "prepare": "prepare"
+      "prepare": "npm run is-windows --loglevel=silent && prepare || ./prepare",
+      "is-windows": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1);\""
     }
 }
