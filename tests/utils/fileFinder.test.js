@@ -1,6 +1,7 @@
 jest.unmock('../../src/utils/fileFinder');
 jest.mock('fs');
 
+import path from 'path';
 import fs from 'fs';
 import fileFinder from '../../src/utils/fileFinder';
 
@@ -71,7 +72,7 @@ describe('fileFinder', () => {
     // When
     result = fileFinder('./', /\.js/);
     // Then
-    expect(result).toEqual(['afile.js', 'subfolder/bfile.js']);
+    expect(result).toEqual(['afile.js', path.join('subfolder', 'bfile.js')]);
   });
 
   it('should find a list of files and ignore files based on a pattern', () => {
