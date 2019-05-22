@@ -1,6 +1,5 @@
 #!/bin/sh
 
-@echo off
 yarn --version >NUL 2>&1 && (
   yarn
 ) || (
