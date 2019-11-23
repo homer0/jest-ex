@@ -1,9 +1,12 @@
 {
-  "extends": ["../.eslintrc"],
-  "env": {
-    "jest": true
-  },
+  "root": true,
+  "plugins": ["homer0"],
+  "extends": ["plugin:homer0/jest"],
   "rules": {
     "import/first": "off"
+  },
+  "globals": {
+    "__dirname": true,
+    "__filename": true
   }
 }

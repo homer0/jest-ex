@@ -47,7 +47,7 @@ class JestExRunner {
      */
     this.config = {};
     if (typeof config === 'string') {
-      // eslint-disable-next-line global-require
+      // eslint-disable-next-line global-require, import/no-dynamic-require
       this.config = require(path.join(this.rootPath, config));
     } else {
       this.config = Object.assign({}, config);

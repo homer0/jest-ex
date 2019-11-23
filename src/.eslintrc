@@ -1,0 +1,7 @@
+{
+  "root": true,
+  "extends": ["../.eslintrc"],
+  "rules": {
+    "node/no-unsupported-features/es-syntax": "off"
+  }
+}
