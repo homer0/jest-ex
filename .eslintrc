@@ -1,20 +1,5 @@
 {
-  "extends": ["airbnb-base"],
-  "rules": {
-    "no-plusplus": "off",
-    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
-    "arrow-parens": ["error", "always"],
-    "comma-dangle": ["error", {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "never"
-    }],
-    indent: ['error', 2, {
-      MemberExpression: 0,
-    }],
-    "import/no-dynamic-require": "off",
-    "lines-between-class-members": "off"
-  }
+  "root": true,
+  "plugins": ["homer0"],
+  "extends": ["plugin:homer0/node"]
 }

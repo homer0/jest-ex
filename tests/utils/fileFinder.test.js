@@ -9,7 +9,11 @@ describe('fileFinder', () => {
   it('should find a list of files', () => {
     // Given
     fs.existsSync.mockReturnValueOnce(true);
-    fs.statSync.mockReturnValueOnce({ isFile() { return false; } });
+    fs.statSync.mockReturnValueOnce({
+      isFile() {
+        return false;
+      },
+    });
     fs.readdirSync.mockReturnValueOnce([
       'subfolder',
       'link',
@@ -41,7 +45,11 @@ describe('fileFinder', () => {
   it('should find a list of files thru a serie of sub directories', () => {
     // Given
     fs.existsSync.mockReturnValueOnce(true);
-    fs.statSync.mockReturnValueOnce({ isFile() { return false; } });
+    fs.statSync.mockReturnValueOnce({
+      isFile() {
+        return false;
+      },
+    });
     fs.readdirSync.mockReturnValueOnce([
       'subfolder',
       'afile.js',
@@ -60,7 +68,11 @@ describe('fileFinder', () => {
       isDirectory() { return false; },
     });
     fs.existsSync.mockReturnValueOnce(true);
-    fs.statSync.mockReturnValueOnce({ isFile() { return false; } });
+    fs.statSync.mockReturnValueOnce({
+      isFile() {
+        return false;
+      },
+    });
     fs.readdirSync.mockReturnValueOnce([
       'bfile.js',
     ]);
@@ -78,7 +90,11 @@ describe('fileFinder', () => {
   it('should find a list of files and ignore files based on a pattern', () => {
     // Given
     fs.existsSync.mockReturnValueOnce(true);
-    fs.statSync.mockReturnValueOnce({ isFile() { return false; } });
+    fs.statSync.mockReturnValueOnce({
+      isFile() {
+        return false;
+      },
+    });
     fs.readdirSync.mockReturnValueOnce([
       'afile.js',
       'afile.css',
@@ -101,7 +117,11 @@ describe('fileFinder', () => {
   it('should \'search\' even if it gets a file as path', () => {
     // Given
     fs.existsSync.mockReturnValueOnce(true);
-    fs.statSync.mockReturnValueOnce({ isFile() { return true; } });
+    fs.statSync.mockReturnValueOnce({
+      isFile() {
+        return true;
+      },
+    });
     let result = null;
     // When
     result = fileFinder('./afile.js', /file/);
