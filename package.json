@@ -1,7 +1,7 @@
 {
     "name": "jest-ex",
     "description": "A runner and a transformer to simplify (a little bit) your work with Jest.",
-    "version": "6.1.2",
+    "version": "7.0.0",
     "repository": "homer0/jest-ex",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
@@ -13,27 +13,26 @@
     ],
     "dependencies": {
       "glob": "^7.1.6",
-      "@babel/core": "7.7.4",
-      "@babel/plugin-transform-runtime": "7.7.4",
-      "@babel/preset-env": "7.7.4",
+      "@babel/core": "7.7.7",
+      "@babel/plugin-transform-runtime": "7.7.6",
+      "@babel/preset-env": "7.7.7",
       "yargs": "^15.0.2",
-      "html-loader": "^0.5.5",
+      "html-loader": "0.5.5",
       "jest-cli": "^24.9.0"
     },
     "devDependencies": {
-      "@babel/cli": "7.7.4",
+      "@babel/cli": "7.7.7",
       "babel-jest": "^24.9.0",
-      "eslint": "^6.7.0",
-      "eslint-plugin-homer0": "^2.1.0",
+      "eslint": "^6.8.0",
+      "eslint-plugin-homer0": "^3.0.0",
       "jasmine-expect": "^4.0.3",
       "esdoc": "^1.1.0",
       "esdoc-standard-plugin": "^1.0.0",
-      "coveralls": "^3.0.8"
+      "coveralls": "^3.0.9"
     },
     "engine-strict": true,
     "engines": {
-      "node": ">=8.0.0",
-      "npm": ">=3.0.0"
+      "node": ">=10.0.0"
     },
     "main": "dist/index.js",
     "scripts": {
